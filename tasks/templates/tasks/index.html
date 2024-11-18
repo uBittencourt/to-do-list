@@ -1,5 +1,24 @@
 {% extends "global/base.html" %}
 
 {% block content %}
-    <h1 class="text-4xl font-black">Tailwind Test</h1>
+    <main>
+        <div class="header">
+            <h1 class="week-title">{{ first_day }} to {{ last_day }}</h1>
+            <button class="btn-register-task">Register Task</button>
+        </div>
+        
+        <div class="line"></div>
+
+        <div class="tasks-week">
+            {% for task in pending_tasks %}
+                {% if not task.desired_weekly_frequency == task.completion_count %}
+                    <button class="btn-completion-task no-complete">{{ task.title }}</button>
+                {% else %}        
+                    <button class="btn-completion-task complete">{{ task.title }}</button>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <h1 class="week-title title">Your Week</h1>
+    </main>
 {% endblock content %}

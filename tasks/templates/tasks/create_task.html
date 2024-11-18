@@ -1,0 +1,16 @@
+{% extends "global/base.html" %}
+
+{% block content %}
+    <h1 class="uppercase text-red-600">Testando</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+        {% endfor %}
+
+        <button type="submit">Criar</button>
+    </form>
+    <button class="bg-slate-500 uppercase">Teste</button>
+{% endblock content %}

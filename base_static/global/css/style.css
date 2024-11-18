@@ -1,0 +1,76 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Work Sans", sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(20, 20, 20);
+    color: rgb(241, 236, 236);
+}
+
+main{
+    padding: 35px 20px;
+    height: 100vh;
+    width: 45%;
+}
+
+.header{
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.week-title{
+    font-size: 24px;
+}
+
+.title{
+    margin: 20px 0px;
+}
+
+.btn-register-task{
+    color: rgb(241, 236, 236);
+    background-color: rgb(199, 19, 199);
+    padding: 10px 30px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: medium;
+    cursor: pointer;
+}
+
+.line{
+    margin: 25px 0px;
+    background-color: rgb(51, 49, 49);
+    height: 1px;
+    width: 100%;
+}
+
+.tasks-week{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.btn-completion-task{
+    padding: 10px 30px;
+    border-radius: 20px;
+    border: 2px solid rgb(51, 49, 49);
+    background-color: transparent;
+    font-size: 14px;
+}
+
+.no-complete{
+    color: rgb(241, 236, 236);
+    cursor: pointer;
+}
+
+.complete{
+    color: rgb(51, 49, 49);
+}
