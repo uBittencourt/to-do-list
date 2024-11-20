@@ -1,9 +1,11 @@
 from datetime import date
 from django_cte import With
 from django.db.models import Q
+from django.urls import reverse
 from django.utils import timezone
 from django.db.models import Count
-from django.shortcuts import render, redirect
+from dateutil.relativedelta import relativedelta
+from django.shortcuts import render, redirect, get_object_or_404
 
 from tasks.forms import TaskForm 
 from tasks.models import Task, TaskCompletions
@@ -11,11 +13,20 @@ from utils.get_date import get_last_day_of_week, get_first_day_of_week
 
 # Create your views here.
 def index(request):
-
     first_day_of_week = get_first_day_of_week(date.today())
     last_day_of_week = get_last_day_of_week(date.today())
 
     _pending_tasks = pending_tasks() 
+    summary = summary_of_week()
+
+    if request.method == 'POST':
+        task_sent = request.POST.get('task')
+        task = get_object_or_404(Task, id=task_sent)
+        task_completion = TaskCompletions(
+            task_id = task    
+        )
+        task_completion.save()
+        return redirect('tasks:index')
 
     return render(
         request,
@@ -23,7 +34,8 @@ def index(request):
         {
             'first_day': f'{first_day_of_week.strftime('%d/%m/%Y')}',
             'last_day': f'{last_day_of_week.strftime('%d/%m/%Y')}', 
-            'pending_tasks': _pending_tasks   
+            'pending_tasks': _pending_tasks,
+            'summary': summary,
         }
     )
 
@@ -94,6 +106,38 @@ def pending_tasks():
     #     'tasks/index.html'    
     # )
 
+
+def summary_of_week():
+    first_day = get_first_day_of_week(date.today())
+    last_day = get_last_day_of_week(date.today())
+
+    tasks_created_up_to_week = Task.objects\
+        .values("id", "title", "desired_weekly_frequency")\
+        .filter(created_at__range=(first_day, last_day))
+    
+    tasks_completed = TaskCompletions.objects\
+        .values("task_id", "created_at")\
+        .filter(created_at__range=(first_day, last_day))
+    
+    for task in tasks_completed:
+        task['completion_date'] = task['created_at'].strftime('%d/%m/%Y')
+        task['completion_time'] = task['created_at'] - relativedelta(hours=3)
+        task['completion_time'] = task['completion_time'].strftime('%Hh%Mmin')
+
+    summary = dict()
+    for task in tasks_created_up_to_week:
+        for completion in tasks_completed:
+            if not completion['completion_date'] in summary:
+                summary[f'{completion['completion_date']}'] = []
+
+            if task['id'] == completion['task_id'] and \
+                task['title'] not in summary[f'{completion['completion_date']}']:
+                summary[f'{completion['completion_date']}']\
+                    .append([task['title'], completion['completion_time']])
+                
+    
+
+    return summary
 
 # TESTS 
 # from itertools import chain

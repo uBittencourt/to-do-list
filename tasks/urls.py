@@ -6,5 +6,5 @@ app_name = 'tasks'
 urlpatterns = [
     path('', views.index, name='index'),
     path('create/', views.create, name='create'),
-    path('pending/', views.pending_tasks, name='pending')
+    path('pending/', views.summary_of_week, name='pending')
 ]

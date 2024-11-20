@@ -1,6 +1,7 @@
-from datetime import date
+from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 
+from django.utils import timezone
 
 def get_first_day_of_week(datetime):
     _year = datetime.year
@@ -31,3 +32,6 @@ if __name__ == '__main__':
     # print(get_last_day_of_week(_datetime))
     print('Semana começa:' ,get_first_day_of_week(date.today()))
     print('Semana termina:', get_last_day_of_week(date.today()))
+
+    print(datetime.today())
+    print(timezone.now())
