@@ -43,6 +43,12 @@ main{
     font-weight: 600;
     font-size: medium;
     cursor: pointer;
+    transition: .15s ease-in;
+}
+
+.btn-register-task:hover{
+    color: rgb(226, 220, 220);
+    background: rgb(126, 2, 126);
 }
 
 .btn-register-task a{
@@ -50,8 +56,21 @@ main{
     text-decoration: none;
 }
 
+.progress-bar{
+    height: 10px; 
+    margin-top: 15px;
+    margin-bottom: 5px;
+    background: linear-gradient(to right, rgb(228, 125, 228), rgb(126, 2, 126));
+    border-radius: 5px;
+}
+
+.title-progress-bar{
+    font-size: 15px;
+    padding-left: 3px;
+}
+
 .line{
-    margin: 25px 0px;
+    margin: 6px 0px 25px 0px;
     background-color: rgb(51, 49, 49);
     height: 1px;
     width: 100%;
@@ -95,6 +114,10 @@ main{
     color: rgb(241, 236, 236);
 }
 
-.teste{
+.input-task{
     display: none;
+}
+
+.line-summary{
+    display: flex;
 }

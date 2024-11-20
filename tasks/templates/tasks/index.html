@@ -2,12 +2,15 @@
 
 {% block content %}
     <main>
+
         <div class="header">
             <h1 class="week-title">{{ first_day }} to {{ last_day }}</h1>
             <a href="{% url "tasks:create" %}"><button class="btn-register-task">Register Task</button></a>
         </div>
         
-        <div style='width: 50%; height: 10px; background: white;' aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar" style="width: {{ count_completed_percent }}%;" aria-valuemin="0" aria-valuemax="{{ count_pending }}"></div>
+        <p class="title-progress-bar">You completed {{ count_completed }} of {{ count_pending }}.</p>
+
         <div class="line"></div>
 
         <div  class="tasks-week">
@@ -18,7 +21,7 @@
                         {% comment %} <button class="btn-completion-task no-complete">{{ task.title }}</button> {% endcomment %}
                         <button class="btn-completion-task no-complete" type="submit">
                             {{ task.title }}
-                            <input type="text" class="teste" name="task" value="{{ task.id }}">
+                            <input type="text" class="input-task" name="task" value="{{ task.id }}">
                         </button>
                     {% else %}        
                         {% comment %} <button class="btn-completion-task complete">{{ task.title }}</button> {% endcomment %}
@@ -37,19 +40,13 @@
             {% for key, value in summary.items %}
                 <h3 class="day-of-week">{{ key }}</h3>
                 {% for i in value %}
-                    <p class="task-summary">You completed <span>"{{ i.0 }}"</span> at <span>{{ i.1 }}</span></p> 
+                    <div class="line-summary">
+                        <p class="task-summary">You completed <span>"{{ i.0 }}"</span> at <span>{{ i.1 }}</span></p> 
+                        <button>delete</button>
+                    </div>    
                 {% endfor %}
             {% endfor %}
         </div>
-
-        {% comment %} <form>
-            {% for task in pending_tasks %}
-                <button>
-                    <label>{{ task.title }}</label>
-                    <input type="text" class="teste">
-                </button>
-            {% endfor %}
-        </form> {% endcomment %}
 
     </main>
 {% endblock content %}

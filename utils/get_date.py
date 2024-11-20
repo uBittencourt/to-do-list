@@ -33,5 +33,4 @@ if __name__ == '__main__':
     print('Semana começa:' ,get_first_day_of_week(date.today()))
     print('Semana termina:', get_last_day_of_week(date.today()))
 
-    print(datetime.today())
-    print(timezone.now())
+    print(datetime(2024, 11, 20, 1) - relativedelta(hours=3))

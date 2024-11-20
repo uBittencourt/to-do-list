@@ -19,6 +19,13 @@ def index(request):
     _pending_tasks = pending_tasks() 
     summary = summary_of_week()
 
+    count_pending, count_completed = 0, 0
+    for task in pending_tasks():
+        count_pending += task['desired_weekly_frequency']
+        count_completed += task['completion_count']
+    
+    count_completed_percent = (count_completed * 100) // count_pending
+
     if request.method == 'POST':
         task_sent = request.POST.get('task')
         task = get_object_or_404(Task, id=task_sent)
@@ -28,6 +35,7 @@ def index(request):
         task_completion.save()
         return redirect('tasks:index')
 
+    print(summary)
     return render(
         request,
         'tasks/index.html',
@@ -36,6 +44,9 @@ def index(request):
             'last_day': f'{last_day_of_week.strftime('%d/%m/%Y')}', 
             'pending_tasks': _pending_tasks,
             'summary': summary,
+            'count_completed_percent': count_completed_percent,
+            'count_completed': count_completed,
+            'count_pending': count_pending
         }
     )
 
@@ -120,7 +131,8 @@ def summary_of_week():
         .filter(created_at__range=(first_day, last_day))
     
     for task in tasks_completed:
-        task['completion_date'] = task['created_at'].strftime('%d/%m/%Y')
+        task['completion_date'] = task['created_at'] - relativedelta(hours=3)
+        task['completion_date'] = task['completion_date'].strftime('%d/%m/%Y')
         task['completion_time'] = task['created_at'] - relativedelta(hours=3)
         task['completion_time'] = task['completion_time'].strftime('%Hh%Mmin')
 
@@ -134,11 +146,9 @@ def summary_of_week():
                 task['title'] not in summary[f'{completion['completion_date']}']:
                 summary[f'{completion['completion_date']}']\
                     .append([task['title'], completion['completion_time']])
-                
-    
 
     return summary
-
+    
 # TESTS 
 # from itertools import chain
 # print(list(chain(tasks_created_up_to_week, task_completion_count)))
