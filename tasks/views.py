@@ -27,15 +27,20 @@ def index(request):
     count_completed_percent = (count_completed * 100) // count_pending
 
     if request.method == 'POST':
-        task_sent = request.POST.get('task')
-        task = get_object_or_404(Task, id=task_sent)
-        task_completion = TaskCompletions(
-            task_id = task    
-        )
-        task_completion.save()
-        return redirect('tasks:index')
+        try:
+            task_sent = request.POST.get('task')
+            task = get_object_or_404(Task, id=task_sent)
+            task_completion = TaskCompletions(
+                task_id = task    
+            )
+            task_completion.save()
+            return redirect('tasks:index')
+        except:
+            id_completion = int(request.POST.get('id_completion'))
+            TaskCompletions.objects.filter(id=id_completion).delete()
+            return redirect('tasks:index')
 
-    print(summary)
+    # print(summary)
     return render(
         request,
         'tasks/index.html',
@@ -64,7 +69,7 @@ def create(request):
     
         return render(
             request,
-            'tasks/create_task.html',
+            'tasks/index.html',
             context    
         )
     
@@ -127,7 +132,7 @@ def summary_of_week():
         .filter(created_at__range=(first_day, last_day))
     
     tasks_completed = TaskCompletions.objects\
-        .values("task_id", "created_at")\
+        .values("task_id", "created_at", "id")\
         .filter(created_at__range=(first_day, last_day))
     
     for task in tasks_completed:
@@ -145,10 +150,10 @@ def summary_of_week():
             if task['id'] == completion['task_id'] and \
                 task['title'] not in summary[f'{completion['completion_date']}']:
                 summary[f'{completion['completion_date']}']\
-                    .append([task['title'], completion['completion_time']])
+                    .append([task['title'], completion['completion_time'], completion['id']])
 
     return summary
-    
+
 # TESTS 
 # from itertools import chain
 # print(list(chain(tasks_created_up_to_week, task_completion_count)))

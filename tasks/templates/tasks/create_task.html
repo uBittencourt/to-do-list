@@ -1,16 +1,18 @@
 {% extends "global/base.html" %}
 
 {% block content %}
-    <h1 class="uppercase text-red-600">Testando</h1>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {% for field in form %}
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
-            {{ field.errors }}
-        {% endfor %}
+    <div class="content">
+        <h1 class="title-create">Register Task</h1>
+        <div class="line"></div>
+        <form action="/create/" method="POST" class="form-create">
+            {% csrf_token %}
+            {% for field in form %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {{ field.errors }}
+            {% endfor %}
 
-        <button type="submit">Criar</button>
-    </form>
-    <button class="bg-slate-500 uppercase">Teste</button>
+            <button type="submit" class="btn-create">Create Task</button>
+        </form>
+    </div>
 {% endblock content %}

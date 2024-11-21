@@ -17,7 +17,7 @@ django.setup()
 if __name__ == '__main__':
     from tasks.models import Task, TaskCompletions
     # Task.objects.all().delete()
-    TaskCompletions.objects.all().delete()
+    # TaskCompletions.objects.all().delete()
 
     # task_title = ['Acordar cedo', 'Beber muita água', 'Ir pra academia']
     # task_frequency = [5, 7, 5]
@@ -41,3 +41,5 @@ if __name__ == '__main__':
     #     task_id = query 
     # )
     # task_completion.save()
+    # TaskCompletions.objects.filter(id=58).delete()
+    # Task.objects.filter(title="teste").delete()

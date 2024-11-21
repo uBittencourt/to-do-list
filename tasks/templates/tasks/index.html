@@ -5,7 +5,12 @@
 
         <div class="header">
             <h1 class="week-title">{{ first_day }} to {{ last_day }}</h1>
-            <a href="{% url "tasks:create" %}"><button class="btn-register-task">Register Task</button></a>
+            <a href="{% url "tasks:create" %}">
+                <button class="btn-register-task">
+                    <i class="bi bi-plus-lg"></i>
+                    Register Task
+                </button>
+            </a>
         </div>
         
         <div class="progress-bar" style="width: {{ count_completed_percent }}%;" aria-valuemin="0" aria-valuemax="{{ count_pending }}"></div>
@@ -20,8 +25,9 @@
                     {% if not task.desired_weekly_frequency <= task.completion_count %}
                         {% comment %} <button class="btn-completion-task no-complete">{{ task.title }}</button> {% endcomment %}
                         <button class="btn-completion-task no-complete" type="submit">
+                            <i class="bi bi-plus-lg"></i>
                             {{ task.title }}
-                            <input type="text" class="input-task" name="task" value="{{ task.id }}">
+                            <input type="text" class="input-task" name="task" value="{{ task.id }}"/>
                         </button>
                     {% else %}        
                         {% comment %} <button class="btn-completion-task complete">{{ task.title }}</button> {% endcomment %}
@@ -40,10 +46,16 @@
             {% for key, value in summary.items %}
                 <h3 class="day-of-week">{{ key }}</h3>
                 {% for i in value %}
-                    <div class="line-summary">
-                        <p class="task-summary">You completed <span>"{{ i.0 }}"</span> at <span>{{ i.1 }}</span></p> 
-                        <button>delete</button>
-                    </div>    
+                    <form action="/" method="POST"> 
+                        {% csrf_token %}
+                        <div class="line-summary">
+                            <p class="task-summary">You completed <span>"{{ i.0 }}"</span> at <span>{{ i.1 }}</span></p> 
+                            <button type="submit" class="btn-delete">
+                                <i class="bi bi-dash-lg"></i>
+                                <input type="text" class="input-task" name="id_completion" value="{{ i.2 }}"/>
+                            </button>
+                        </div>    
+                    </form>
                 {% endfor %}
             {% endfor %}
         </div>
