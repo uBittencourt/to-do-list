@@ -140,6 +140,8 @@ STATICFILES_DIRS = (
 )
 STATIC_ROOT = BASE_DIR / 'static' # pasta que recebe o 'collectstatic'
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media' # pasta que recebe as imagens
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

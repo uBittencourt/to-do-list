@@ -139,6 +139,6 @@ GitHub.sublime-settings
 .history
 
 theme
-utils/*
-!utils/get_date.py
+/utils/*
+!/utils/get_date.py
 comments.txt
