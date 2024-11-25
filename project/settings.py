@@ -92,8 +92,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'tasks_list',
-        'USER': 'root',
-        'PASSWORD': 'Vini01112005#',
+        'USER': 'root', # or your MySQL user
+        'PASSWORD': 'your_password',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -147,3 +147,8 @@ MEDIA_ROOT = BASE_DIR / 'media' # pasta que recebe as imagens
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+try:
+    from project.local_settings import *
+except ImportError:
+    ...
