@@ -3,6 +3,7 @@ import sys
 import django
 from pathlib import Path
 from django.conf import settings
+from datetime import datetime
 
 from django.shortcuts import get_object_or_404
 
@@ -36,10 +37,16 @@ if __name__ == '__main__':
     # )
     # task_completion.save()
 
-    # query = get_object_or_404(Task, title="Beber muita água")
-    # task_completion = TaskCompletions(
-    #     task_id = query 
-    # )
-    # task_completion.save()
-    # TaskCompletions.objects.filter(id=58).delete()
+    query = get_object_or_404(Task, title="Limpar a casa")
+    task_completion = TaskCompletions(
+        task_id = query,
+        created_at=datetime(2024, 11, 16, 2, 13)
+    )
+    task_completion.save()
+    # TaskCompletions.objects.filter(id=80).delete()
     # Task.objects.filter(title="teste").delete()
+    # task = Task(
+    #     title="Limpar a casa",
+    #     created_at=datetime(2024, 11, 15)     
+    # )
+    # task.save()

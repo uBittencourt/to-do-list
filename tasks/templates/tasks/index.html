@@ -4,6 +4,11 @@
     <main>
 
         <div class="header">
+            <form action="/" method="POST" class="previous-week">
+                {% csrf_token %}
+                <input type="text" class="input-task" name="teste" value=""/>
+                <button type='submit' class="btn-previous-week">&lt</button>
+            </form>
             <h1 class="week-title">{{ first_day }} to {{ last_day }}</h1>
             <a href="{% url "tasks:create" %}">
                 <button class="btn-register-task">
@@ -23,24 +28,21 @@
                 <form action="/" method="POST">
                     {% csrf_token %}
                     {% if not task.desired_weekly_frequency <= task.completion_count %}
-                        {% comment %} <button class="btn-completion-task no-complete">{{ task.title }}</button> {% endcomment %}
                         <button class="btn-completion-task no-complete" type="submit">
                             <i class="bi bi-plus-lg"></i>
                             {{ task.title }}
                             <input type="text" class="input-task" name="task" value="{{ task.id }}"/>
                         </button>
                     {% else %}        
-                        {% comment %} <button class="btn-completion-task complete">{{ task.title }}</button> {% endcomment %}
                         <div class="btn-completion-task complete">
                             {{ task.title }}
-                            {% comment %} <input type="text" class="teste"> {% endcomment %}
                         </div>    
                     {% endif %}
                 </form>
             {% endfor %}
         </div>
 
-        <h1 class="week-title title">Your Week</h1>
+        <h1 class="week-title title">Your Current Week</h1>
 
         <div>
             {% for key, value in summary.items %}

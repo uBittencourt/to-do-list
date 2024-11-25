@@ -1,0 +1,38 @@
+{% extends "global/base.html" %}
+
+{% block content %}
+    <main>
+
+        <div class="header">
+            <h1 class="week-title">{{ first_day }} to {{ last_day }}</h1>
+
+            <button class="btn-register-task">
+                Unable to Register Task
+            </button>
+            
+            <form action="/previous-week/" method="POST" class="current-week">
+                {% csrf_token %}
+                <button type='submit' class="btn-previous-week">&gt</button>
+            </form>
+        </div>
+        
+        <div class="progress-bar" style="width: {{ count_completed_percent }}%;" aria-valuemin="0" aria-valuemax="{{ count_pending }}"></div>
+        <p class="title-progress-bar">You completed {{ count_completed }} of {{ count_pending }}.</p>
+
+        <div class="line"></div>
+
+        <h1 class="week-title title">Your Previous Week</h1>
+
+        <div>
+            {% for key, value in summary.items %}
+                <h3 class="day-of-week">{{ key }}</h3>
+                {% for i in value %}
+                    <div class="line-summary">
+                        <p class="task-summary">You completed <span>"{{ i.0 }}"</span> at <span>{{ i.1 }}</span></p> 
+                    </div>    
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+    </main>
+{% endblock content %}
